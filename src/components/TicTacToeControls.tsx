@@ -6,7 +6,6 @@ import { CellValue } from './TicTacToeGrid';
 
 interface TicTacToeControlsProps {
   onReset: () => void;
-  onAnalyze: () => void;
   onChangeTurn: (player: CellValue) => void;
   gameStatus: string;
   currentTurn: CellValue;
@@ -14,7 +13,6 @@ interface TicTacToeControlsProps {
 
 const TicTacToeControls: React.FC<TicTacToeControlsProps> = ({
   onReset,
-  onAnalyze,
   onChangeTurn,
   gameStatus,
   currentTurn
@@ -22,12 +20,9 @@ const TicTacToeControls: React.FC<TicTacToeControlsProps> = ({
   return (
     <div className="flex flex-col gap-4 w-full mb-6">
       <div className="flex flex-wrap gap-2 justify-center md:justify-between">
-        <div className="flex gap-2">
+        <div>
           <Button onClick={onReset} variant="secondary">
             Reset Board
-          </Button>
-          <Button onClick={onAnalyze} variant="primary">
-            Suggest Move
           </Button>
         </div>
         
@@ -53,7 +48,7 @@ const TicTacToeControls: React.FC<TicTacToeControlsProps> = ({
       </div>
       
       {gameStatus && (
-        <Alert variant={gameStatus.includes('won') ? "default" : "default"} className="mt-2">
+        <Alert variant="default" className="mt-2">
           <AlertTitle>{gameStatus.split(':')[0]}</AlertTitle>
           <AlertDescription>
             {gameStatus.includes(':') ? gameStatus.split(':')[1] : gameStatus}
