@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,6 +50,14 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Minesweeper colors */
+    --cell-border: 210 20% 90%;
+    --cell-revealed: 210 10% 96%;
+    --cell-flagged: 0 70% 50%;
+    --cell-safe: 120 70% 45%;
+    --cell-bomb: 0 80% 50%;
+    --cell-hover: 210 70% 95%;
   }
 
   .dark {
@@ -87,6 +96,14 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Minesweeper dark colors */
+    --cell-border: 215 20% 20%;
+    --cell-revealed: 215 10% 15%;
+    --cell-flagged: 0 70% 50%;
+    --cell-safe: 120 70% 35%;
+    --cell-bomb: 0 80% 40%;
+    --cell-hover: 210 15% 25%;
   }
 }
 
@@ -99,3 +116,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Minesweeper custom styles */
+.cell {
+  @apply w-10 h-10 border border-[hsl(var(--cell-border))] flex items-center justify-center cursor-pointer transition-colors duration-150 text-xl font-bold select-none;
+}
+
+.cell-unrevealed {
+  @apply bg-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--cell-hover))];
+}
+
+.cell-revealed {
+  @apply bg-[hsl(var(--cell-revealed))] cursor-default;
+}
+
+.cell-flagged {
+  @apply bg-[hsl(var(--cell-flagged))] text-white;
+}
+
+.cell-bomb {
+  @apply bg-[hsl(var(--cell-bomb))] text-white;
+}
+
+.cell-safe {
+  @apply bg-[hsl(var(--cell-safe))] text-white;
+}
+
+.cell-1 { @apply text-blue-600; }
+.cell-2 { @apply text-green-600; }
+.cell-3 { @apply text-red-600; }
+.cell-4 { @apply text-purple-700; }
+.cell-5 { @apply text-orange-600; }
+.cell-6 { @apply text-teal-600; }
+.cell-7 { @apply text-black; }
+.cell-8 { @apply text-gray-600; }
