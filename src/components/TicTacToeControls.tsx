@@ -26,7 +26,7 @@ const TicTacToeControls: React.FC<TicTacToeControlsProps> = ({
           <Button onClick={onReset} variant="secondary">
             Reset Board
           </Button>
-          <Button onClick={onAnalyze} variant="primary">
+          <Button onClick={onAnalyze} variant="default">
             Suggest Move
           </Button>
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import MinesweeperGrid, { GridType as MineGridType, CellType, CellValue as MineCellValue } from '@/components/MinesweeperGrid';
 import GameControls from '@/components/GameControls';
@@ -11,6 +10,7 @@ import {
   countUnrevealedCells
 } from '@/utils/minesweeperLogic';
 import { toast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 // Import Tic-tac-toe components and logic
 import TicTacToeGrid, { GridType as TicTacGridType, CellValue as TicTacCellValue } from '@/components/TicTacToeGrid';
