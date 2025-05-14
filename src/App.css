@@ -1,8 +1,19 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
 .logo {
@@ -11,9 +22,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -35,8 +48,45 @@
 
 .card {
   padding: 2em;
+  border-radius: var(--radius);
+  background-color: hsl(var(--card));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .read-the-docs {
-  color: #888;
+  color: hsl(var(--muted-foreground));
+  margin-top: 2rem;
+  font-size: 0.875rem;
+}
+
+/* Game specific styles */
+.game-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background-color: hsl(var(--card));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.game-title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: hsl(var(--foreground));
+}
+
+.game-instructions {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
 }

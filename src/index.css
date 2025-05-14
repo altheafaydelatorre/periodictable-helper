@@ -33,22 +33,15 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
     
     /* Minesweeper colors */
@@ -58,6 +51,11 @@
     --cell-safe: 120 70% 45%;
     --cell-bomb: 0 80% 50%;
     --cell-hover: 210 70% 95%;
+    
+    /* Scrabble colors */
+    --scrabble-tile: 35 80% 90%;
+    --scrabble-tile-text: 35 80% 25%;
+    --scrabble-highlight: 210 100% 70%;
   }
 
   .dark {
@@ -88,6 +86,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -104,6 +103,11 @@
     --cell-safe: 120 70% 35%;
     --cell-bomb: 0 80% 40%;
     --cell-hover: 210 15% 25%;
+    
+    /* Scrabble dark colors */
+    --scrabble-tile: 35 30% 25%;
+    --scrabble-tile-text: 35 70% 80%;
+    --scrabble-highlight: 210 70% 50%;
   }
 }
 
@@ -114,6 +118,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 }
 
@@ -142,11 +147,72 @@
   @apply bg-[hsl(var(--cell-safe))] text-white;
 }
 
-.cell-1 { @apply text-blue-600; }
-.cell-2 { @apply text-green-600; }
-.cell-3 { @apply text-red-600; }
-.cell-4 { @apply text-purple-700; }
-.cell-5 { @apply text-orange-600; }
-.cell-6 { @apply text-teal-600; }
-.cell-7 { @apply text-black; }
-.cell-8 { @apply text-gray-600; }
+.cell-1 { @apply text-blue-600 dark:text-blue-400; }
+.cell-2 { @apply text-green-600 dark:text-green-400; }
+.cell-3 { @apply text-red-600 dark:text-red-400; }
+.cell-4 { @apply text-purple-700 dark:text-purple-400; }
+.cell-5 { @apply text-orange-600 dark:text-orange-400; }
+.cell-6 { @apply text-teal-600 dark:text-teal-400; }
+.cell-7 { @apply text-black dark:text-white; }
+.cell-8 { @apply text-gray-600 dark:text-gray-400; }
+
+/* Scrabble letter styles */
+.scrabble-tile {
+  @apply inline-flex items-center justify-center h-12 w-12 m-1 bg-[hsl(var(--scrabble-tile))] text-[hsl(var(--scrabble-tile-text))] font-bold rounded shadow relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scrabble-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scrabble-tile .letter {
+  @apply text-2xl;
+}
+
+.scrabble-tile .score {
+  @apply absolute bottom-1 right-1 text-xs;
+}
+
+.word-list-item {
+  @apply transition-colors duration-150 p-2 rounded;
+}
+
+.word-list-item:hover {
+  @apply bg-[hsl(var(--scrabble-highlight))]/10;
+}
+
+/* Custom input styles */
+.input-container {
+  @apply relative w-full max-w-md mx-auto mt-4;
+}
+
+.input-fancy {
+  @apply w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))];
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.input-fancy:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn-fancy {
+  @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 ease-in-out;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-fancy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-fancy:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
