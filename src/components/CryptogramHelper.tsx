@@ -9,7 +9,8 @@ import {
   generateSubstitution, 
   encryptMessage, 
   decryptWithKey,
-  getUniqueLetters
+  getUniqueLetters,
+  getRandomQuote
 } from '@/utils/cryptogramUtils';
 
 const CryptogramHelper: React.FC = () => {
@@ -19,6 +20,7 @@ const CryptogramHelper: React.FC = () => {
   const [substitutionKey, setSubstitutionKey] = useState<Record<string, string>>({});
   const [userKey, setUserKey] = useState<Record<string, string>>({});
   const [uniqueLetters, setUniqueLetters] = useState<string[]>([]);
+  const [decodedMeaning, setDecodedMeaning] = useState('');
   
   // Handle mode change
   useEffect(() => {
@@ -26,6 +28,7 @@ const CryptogramHelper: React.FC = () => {
     setOriginalText('');
     setEncryptedText('');
     setUserKey({});
+    setDecodedMeaning('');
     
     if (mode === 'encode') {
       const key = generateSubstitution();
@@ -78,6 +81,7 @@ const CryptogramHelper: React.FC = () => {
     } else {
       setUniqueLetters([]);
     }
+    setDecodedMeaning(''); // Reset decoded meaning when text changes
   };
   
   // Decode according to current user key
@@ -86,6 +90,7 @@ const CryptogramHelper: React.FC = () => {
   // Reset all user inputs
   const resetInputs = () => {
     setUserKey({});
+    setDecodedMeaning('');
     if (mode === 'decode') {
       setEncryptedText('');
       setUniqueLetters([]);
@@ -113,6 +118,29 @@ const CryptogramHelper: React.FC = () => {
       }
       return <span key={index} className="text-xl">{char}</span>;
     });
+  };
+
+  // Function to attempt to decode the meaning of the encrypted text
+  const handleDecodeMeaning = () => {
+    // This would typically use an algorithm or API to decode
+    // For now, we'll use a simplified approach with the current user key
+    if (!encryptedText.trim()) {
+      toast.error('Please enter encrypted text first');
+      return;
+    }
+
+    // Count how complete the user's key is
+    const completionPercentage = Object.keys(userKey).length / uniqueLetters.length;
+    
+    if (completionPercentage < 0.5) {
+      setDecodedMeaning("Need more letter mappings to suggest a meaning. Try filling in more letters.");
+      toast.info('Add more letter mappings to improve meaning detection');
+    } else {
+      // In a real app, this could use language models or pattern matching
+      // For now, we'll just return the current decoded text with a confidence indicator
+      setDecodedMeaning(`Possible meaning: "${decodedText}"\n(Confidence: ${Math.round(completionPercentage * 100)}%)`);
+      toast.success('Meaning analysis complete');
+    }
   };
   
   return (
@@ -187,6 +215,24 @@ const CryptogramHelper: React.FC = () => {
                         {decodedText}
                       </div>
                     </div>
+
+                    <Button 
+                      onClick={handleDecodeMeaning}
+                      className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                    >
+                      Analyze Possible Meaning
+                    </Button>
+                    
+                    {decodedMeaning && (
+                      <div className="p-4 bg-amber-100 rounded-lg">
+                        <Label className="text-gray-800 font-medium block mb-2">
+                          Meaning Analysis
+                        </Label>
+                        <div className="min-h-12 p-2 break-words whitespace-pre-line">
+                          {decodedMeaning}
+                        </div>
+                      </div>
+                    )}
                     
                     <Button 
                       onClick={resetInputs}

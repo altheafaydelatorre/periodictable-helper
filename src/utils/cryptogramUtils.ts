@@ -40,8 +40,8 @@ export const encryptMessage = (text: string, substitution: Record<string, string
 export const decryptWithKey = (encrypted: string, userKey: Record<string, string>): string => {
   // Create a reverse mapping
   const reverseMap: Record<string, string> = {};
-  Object.entries(userKey).forEach(([plain, cipher]) => {
-    if (cipher) reverseMap[cipher] = plain;
+  Object.entries(userKey).forEach(([cipher, plain]) => {
+    if (plain) reverseMap[cipher] = plain;
   });
   
   return encrypted
