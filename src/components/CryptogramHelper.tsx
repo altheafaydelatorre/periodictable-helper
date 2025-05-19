@@ -4,44 +4,37 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { toast } from 'sonner';
 import { 
   generateSubstitution, 
   encryptMessage, 
   decryptWithKey,
-  getUniqueLetters,
-  getRandomQuote,
-  checkSolution
+  getUniqueLetters
 } from '@/utils/cryptogramUtils';
 
 const CryptogramHelper: React.FC = () => {
-  const [mode, setMode] = useState<'solve' | 'create'>('solve');
+  const [mode, setMode] = useState<'decode' | 'encode'>('decode');
   const [originalText, setOriginalText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
   const [substitutionKey, setSubstitutionKey] = useState<Record<string, string>>({});
   const [userKey, setUserKey] = useState<Record<string, string>>({});
   const [uniqueLetters, setUniqueLetters] = useState<string[]>([]);
   
-  // Initialize with a random quote
+  // Handle mode change
   useEffect(() => {
-    if (mode === 'solve') {
-      const quote = getRandomQuote();
+    // Reset state when changing modes
+    setOriginalText('');
+    setEncryptedText('');
+    setUserKey({});
+    
+    if (mode === 'encode') {
       const key = generateSubstitution();
-      const encrypted = encryptMessage(quote, key);
-      
-      setOriginalText(quote);
-      setEncryptedText(encrypted);
       setSubstitutionKey(key);
-      setUniqueLetters(getUniqueLetters(encrypted));
-      
-      // Reset user's solution
-      setUserKey({});
     }
   }, [mode]);
   
   // When user creates a new cryptogram
-  const handleCreateCryptogram = () => {
+  const handleEncryptText = () => {
     if (!originalText.trim()) {
       toast.error('Please enter some text to encrypt');
       return;
@@ -52,8 +45,7 @@ const CryptogramHelper: React.FC = () => {
     
     setEncryptedText(encrypted);
     setSubstitutionKey(key);
-    setUniqueLetters(getUniqueLetters(encrypted));
-    toast.success('Cryptogram created!');
+    toast.success('Text encrypted successfully!');
   };
   
   // Update user's solution mapping
@@ -78,61 +70,32 @@ const CryptogramHelper: React.FC = () => {
     setUserKey(newUserKey);
   };
   
-  // Check user's solution
-  const checkUserSolution = () => {
-    if (checkSolution(encryptedText, originalText, userKey)) {
-      toast.success('Congratulations! You solved it!');
+  // For decode mode - when user enters encrypted text
+  const handleEncryptedTextChange = (text: string) => {
+    setEncryptedText(text);
+    if (text.trim()) {
+      setUniqueLetters(getUniqueLetters(text));
     } else {
-      toast.error('Not quite right, keep trying!');
+      setUniqueLetters([]);
     }
   };
   
-  // Generate a new puzzle
-  const getNewPuzzle = () => {
-    const quote = getRandomQuote();
-    const key = generateSubstitution();
-    const encrypted = encryptMessage(quote, key);
-    
-    setOriginalText(quote);
-    setEncryptedText(encrypted);
-    setSubstitutionKey(key);
-    setUniqueLetters(getUniqueLetters(encrypted));
-    
-    // Reset user's solution
+  // Decode according to current user key
+  const decodedText = decryptWithKey(encryptedText, userKey);
+  
+  // Reset all user inputs
+  const resetInputs = () => {
     setUserKey({});
-    toast.success('New cryptogram loaded!');
-  };
-  
-  // Show a hint
-  const showHint = () => {
-    // Find a letter the user hasn't guessed yet
-    const unguessedLetters = uniqueLetters.filter(letter => !userKey[letter]);
-    
-    if (unguessedLetters.length === 0) {
-      toast.info('You already have guesses for all letters!');
-      return;
+    if (mode === 'decode') {
+      setEncryptedText('');
+      setUniqueLetters([]);
+    } else {
+      setOriginalText('');
+      setEncryptedText('');
     }
-    
-    // Pick a random unguessed letter
-    const randomIndex = Math.floor(Math.random() * unguessedLetters.length);
-    const cipherLetter = unguessedLetters[randomIndex];
-    
-    // Find the correct plain letter from the key
-    const invertedKey: Record<string, string> = {};
-    Object.entries(substitutionKey).forEach(([plain, cipher]) => {
-      invertedKey[cipher] = plain;
-    });
-    
-    const correctPlainLetter = invertedKey[cipherLetter];
-    
-    // Update the user's key with this hint
-    const newUserKey = { ...userKey, [cipherLetter]: correctPlainLetter };
-    setUserKey(newUserKey);
-    
-    toast.success(`Hint: "${cipherLetter}" is "${correctPlainLetter}"`);
   };
   
-  // Format encrypted text with user's guesses
+  // Format encrypted text with user's guesses for decode mode
   const renderEncryptedText = () => {
     return encryptedText.split('').map((char, index) => {
       if (/[A-Z]/.test(char)) {
@@ -157,70 +120,85 @@ const CryptogramHelper: React.FC = () => {
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Cryptogram Helper</CardTitle>
         <CardDescription className="text-gray-700">
-          Solve or create letter substitution puzzles
+          Decode or encode letter substitution text
         </CardDescription>
         
         <div className="flex justify-between items-center mt-4">
           <Button 
             variant="outline" 
-            onClick={() => setMode('solve')}
-            className={`${mode === 'solve' ? 'bg-amber-600 text-white' : 'bg-white/30'}`}
+            onClick={() => setMode('decode')}
+            className={`${mode === 'decode' ? 'bg-amber-600 text-white' : 'bg-white/30'}`}
           >
-            Solve Mode
+            Decode Text
           </Button>
           <Button 
             variant="outline" 
-            onClick={() => setMode('create')}
-            className={`${mode === 'create' ? 'bg-amber-600 text-white' : 'bg-white/30'}`}
+            onClick={() => setMode('encode')}
+            className={`${mode === 'encode' ? 'bg-amber-600 text-white' : 'bg-white/30'}`}
           >
-            Create Mode
+            Encode Text
           </Button>
         </div>
       </CardHeader>
       
       <CardContent className="space-y-4">
-        {mode === 'solve' ? (
+        {mode === 'decode' ? (
           <>
-            <div className="bg-amber-100 p-4 rounded-lg shadow-inner min-h-20 text-center">
-              {renderEncryptedText()}
+            <div>
+              <Label htmlFor="encryptedText" className="text-gray-800 font-medium">
+                Enter encrypted text
+              </Label>
+              <Input
+                id="encryptedText"
+                value={encryptedText}
+                onChange={(e) => handleEncryptedTextChange(e.target.value.toUpperCase())}
+                placeholder="Enter the cryptogram text here..."
+                className="bg-white/70"
+              />
             </div>
             
-            <div className="grid grid-cols-5 gap-2">
-              {uniqueLetters.map((letter) => (
-                <div key={letter} className="text-center">
-                  <div className="bg-amber-200 rounded-md py-1 mb-1 text-xl font-bold">{letter}</div>
-                  <Input
-                    maxLength={1}
-                    value={userKey[letter] || ''}
-                    onChange={(e) => handleUpdateKey(letter, e.target.value)}
-                    className="text-center uppercase font-bold bg-white/70"
-                  />
+            {encryptedText && (
+              <>
+                <div className="bg-amber-100 p-4 rounded-lg shadow-inner min-h-20 text-center">
+                  {renderEncryptedText()}
                 </div>
-              ))}
-            </div>
-            
-            <div className="flex justify-between gap-2">
-              <Button 
-                onClick={checkUserSolution}
-                className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
-              >
-                Check Solution
-              </Button>
-              <Button 
-                onClick={getNewPuzzle}
-                variant="outline"
-                className="flex-1 bg-white/30"
-              >
-                New Puzzle
-              </Button>
-              <Button 
-                onClick={showHint}
-                variant="outline"
-                className="flex-1 bg-white/30"
-              >
-                Hint
-              </Button>
-            </div>
+                
+                {uniqueLetters.length > 0 && (
+                  <>
+                    <div className="grid grid-cols-5 gap-2">
+                      {uniqueLetters.map((letter) => (
+                        <div key={letter} className="text-center">
+                          <div className="bg-amber-200 rounded-md py-1 mb-1 text-xl font-bold">{letter}</div>
+                          <Input
+                            maxLength={1}
+                            value={userKey[letter] || ''}
+                            onChange={(e) => handleUpdateKey(letter, e.target.value)}
+                            className="text-center uppercase font-bold bg-white/70"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="p-4 bg-amber-100 rounded-lg">
+                      <Label className="text-gray-800 font-medium block mb-2">
+                        Decoded Result
+                      </Label>
+                      <div className="min-h-12 p-2 break-words">
+                        {decodedText}
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      onClick={resetInputs}
+                      variant="outline"
+                      className="w-full bg-white/30"
+                    >
+                      Reset
+                    </Button>
+                  </>
+                )}
+              </>
+            )}
           </>
         ) : (
           <>
@@ -238,10 +216,10 @@ const CryptogramHelper: React.FC = () => {
             </div>
             
             <Button 
-              onClick={handleCreateCryptogram}
+              onClick={handleEncryptText}
               className="w-full bg-amber-600 hover:bg-amber-700 text-white"
             >
-              Create Cryptogram
+              Encrypt Text
             </Button>
             
             {encryptedText && (
@@ -252,16 +230,25 @@ const CryptogramHelper: React.FC = () => {
                 <div className="bg-amber-100 p-4 rounded-lg shadow-inner break-words">
                   {encryptedText}
                 </div>
-                <Button 
-                  onClick={() => {
-                    navigator.clipboard.writeText(encryptedText);
-                    toast.success('Copied to clipboard!');
-                  }}
-                  variant="outline"
-                  className="mt-2 bg-white/30"
-                >
-                  Copy to Clipboard
-                </Button>
+                <div className="flex gap-2 mt-2">
+                  <Button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(encryptedText);
+                      toast.success('Copied to clipboard!');
+                    }}
+                    variant="outline"
+                    className="flex-1 bg-white/30"
+                  >
+                    Copy to Clipboard
+                  </Button>
+                  <Button 
+                    onClick={resetInputs}
+                    variant="outline"
+                    className="flex-1 bg-white/30"
+                  >
+                    Reset
+                  </Button>
+                </div>
               </div>
             )}
           </>
@@ -270,7 +257,7 @@ const CryptogramHelper: React.FC = () => {
       
       <CardFooter className="flex justify-between border-t border-amber-400/30 pt-4">
         <div className="text-sm text-amber-800/70">
-          {mode === 'solve' ? 'Solve the puzzle by replacing cipher letters' : 'Create and share your own cryptogram'}
+          {mode === 'decode' ? 'Decode by assigning letters to cipher text' : 'Create encrypted messages to share'}
         </div>
       </CardFooter>
     </Card>
