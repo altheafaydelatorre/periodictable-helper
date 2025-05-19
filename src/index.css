@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -56,6 +55,14 @@
     --scrabble-tile: 35 80% 90%;
     --scrabble-tile-text: 35 80% 25%;
     --scrabble-highlight: 210 100% 70%;
+    
+    /* Morse code theme colors */
+    --morse-primary: 256 79% 75%;
+    --morse-secondary: 262 26% 54%;
+    --morse-accent: 335 100% 91%;
+    --morse-background: 199 100% 56%;
+    --morse-button: 255 100% 94%;
+    --morse-text: 0 0% 100%;
   }
 
   .dark {
@@ -108,6 +115,14 @@
     --scrabble-tile: 35 30% 25%;
     --scrabble-tile-text: 35 70% 80%;
     --scrabble-highlight: 210 70% 50%;
+    
+    /* Morse code dark theme colors */
+    --morse-primary: 256 67% 65%;
+    --morse-secondary: 262 23% 34%;
+    --morse-accent: 335 70% 71%;
+    --morse-background: 199 70% 36%;
+    --morse-button: 255 60% 84%;
+    --morse-text: 0 0% 100%;
   }
 }
 
@@ -215,4 +230,81 @@
 .btn-fancy:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Morse code custom styles */
+.morse-card {
+  @apply bg-gradient-to-br from-[hsl(var(--morse-primary))] to-[hsl(var(--morse-secondary))];
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.morse-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.morse-btn {
+  @apply bg-[hsl(var(--morse-button))]/10 hover:bg-[hsl(var(--morse-button))]/20 text-[hsl(var(--morse-text))] border-[hsl(var(--morse-button))]/20;
+  transition: all 0.2s ease;
+}
+
+.morse-btn:hover {
+  transform: translateY(-2px);
+}
+
+.morse-input {
+  @apply bg-[hsl(var(--morse-text))]/10 border-[hsl(var(--morse-text))]/20 text-[hsl(var(--morse-text))] placeholder:text-[hsl(var(--morse-text))]/50;
+}
+
+.morse-dot {
+  @apply inline-block w-2 h-2 rounded-full bg-[hsl(var(--morse-button))];
+  animation: pulse 1.5s infinite;
+}
+
+.morse-dash {
+  @apply inline-block w-6 h-2 rounded-full bg-[hsl(var(--morse-button))];
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Volume slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
