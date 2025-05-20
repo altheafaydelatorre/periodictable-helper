@@ -31,7 +31,6 @@ const PeriodicTablePage = () => {
             <li><strong>Element Search:</strong> Find elements by name, symbol, or atomic number</li>
             <li><strong>Element Details:</strong> View detailed information about each element</li>
             <li><strong>Category Filter:</strong> Filter elements by category</li>
-            <li><strong>Quiz Mode:</strong> Test your knowledge of the periodic table</li>
           </ol>
         </div>
       </div>

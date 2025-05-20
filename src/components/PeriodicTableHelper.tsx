@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 import { SearchIcon, AtomIcon } from "lucide-react";
 
@@ -196,127 +194,112 @@ const PeriodicTableHelper: React.FC = () => {
           </CardTitle>
         </CardHeader>
         
-        <Tabs defaultValue="search" className="w-full">
-          <TabsList className="grid grid-cols-2 mx-4 mt-4">
-            <TabsTrigger value="search">Element Search</TabsTrigger>
-            <TabsTrigger value="quiz">Quiz Mode</TabsTrigger>
-          </TabsList>
-          
-          <CardContent className="p-6">
-            <TabsContent value="search" className="space-y-4">
-              <div>
-                <Label htmlFor="element-search">Search by name, symbol or atomic number:</Label>
-                <Input
-                  id="element-search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search elements..."
-                  className="mt-1"
-                />
-              </div>
-              
-              <div className="flex flex-wrap gap-2 mt-3">
-                <Label className="w-full mb-1">Filter by category:</Label>
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={categoryFilter === category ? "default" : "outline"}
-                    className={categoryFilter === category ? "bg-green-600 hover:bg-green-700" : ""}
-                    size="sm"
-                    onClick={() => handleCategorySelect(category)}
-                  >
-                    {category}
-                  </Button>
-                ))}
-                {categoryFilter && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setCategoryFilter("")}
-                  >
-                    Clear Filter
-                  </Button>
-                )}
-              </div>
-              
-              {/* Element grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-4">
-                {filteredElements.map((element) => (
-                  <div
-                    key={element.atomicNumber}
-                    onClick={() => handleElementSelect(element)}
-                    className={`p-2 rounded-md cursor-pointer transition-colors border text-center ${
-                      selectedElement?.atomicNumber === element.atomicNumber
-                        ? "bg-green-200 border-green-500"
-                        : "bg-green-50 border-green-200 hover:bg-green-100"
-                    }`}
-                  >
-                    <div className="text-xs text-green-800">{element.atomicNumber}</div>
-                    <div className="text-xl font-bold text-green-700">{element.symbol}</div>
-                    <div className="text-xs truncate">{element.name}</div>
+        <CardContent className="p-6">
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="element-search">Search by name, symbol or atomic number:</Label>
+              <Input
+                id="element-search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search elements..."
+                className="mt-1"
+              />
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mt-3">
+              <Label className="w-full mb-1">Filter by category:</Label>
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={categoryFilter === category ? "default" : "outline"}
+                  className={categoryFilter === category ? "bg-green-600 hover:bg-green-700" : ""}
+                  size="sm"
+                  onClick={() => handleCategorySelect(category)}
+                >
+                  {category}
+                </Button>
+              ))}
+              {categoryFilter && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setCategoryFilter("")}
+                >
+                  Clear Filter
+                </Button>
+              )}
+            </div>
+            
+            {/* Element grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-4">
+              {filteredElements.map((element) => (
+                <div
+                  key={element.atomicNumber}
+                  onClick={() => handleElementSelect(element)}
+                  className={`p-2 rounded-md cursor-pointer transition-colors border text-center ${
+                    selectedElement?.atomicNumber === element.atomicNumber
+                      ? "bg-green-200 border-green-500"
+                      : "bg-green-50 border-green-200 hover:bg-green-100"
+                  }`}
+                >
+                  <div className="text-xs text-green-800">{element.atomicNumber}</div>
+                  <div className="text-xl font-bold text-green-700">{element.symbol}</div>
+                  <div className="text-xs truncate">{element.name}</div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Selected element details */}
+            {selectedElement && (
+              <div className="mt-4 p-4 bg-green-50 border border-green-300 rounded-lg">
+                <h3 className="text-xl font-bold text-green-800 flex items-center gap-2">
+                  {selectedElement.name} 
+                  <span className="text-sm px-2 py-1 bg-green-200 rounded-full">
+                    {selectedElement.symbol}
+                  </span>
+                </h3>
+                
+                <div className="grid grid-cols-2 gap-y-2 gap-x-4 mt-2">
+                  <div className="text-sm">
+                    <span className="font-semibold">Atomic Number:</span> {selectedElement.atomicNumber}
                   </div>
-                ))}
-              </div>
-              
-              {/* Selected element details */}
-              {selectedElement && (
-                <div className="mt-4 p-4 bg-green-50 border border-green-300 rounded-lg">
-                  <h3 className="text-xl font-bold text-green-800 flex items-center gap-2">
-                    {selectedElement.name} 
-                    <span className="text-sm px-2 py-1 bg-green-200 rounded-full">
-                      {selectedElement.symbol}
-                    </span>
-                  </h3>
-                  
-                  <div className="grid grid-cols-2 gap-y-2 gap-x-4 mt-2">
-                    <div className="text-sm">
-                      <span className="font-semibold">Atomic Number:</span> {selectedElement.atomicNumber}
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Atomic Mass:</span> {selectedElement.atomicMass}
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Category:</span> {selectedElement.category}
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Group:</span> {selectedElement.group || "N/A"}
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Period:</span> {selectedElement.period || "N/A"}
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Block:</span> {selectedElement.block || "N/A"}
-                    </div>
+                  <div className="text-sm">
+                    <span className="font-semibold">Atomic Mass:</span> {selectedElement.atomicMass}
                   </div>
-                  
-                  <div className="mt-3 text-sm">
-                    <span className="font-semibold">Electron Configuration:</span> {selectedElement.electronConfiguration || "N/A"}
+                  <div className="text-sm">
+                    <span className="font-semibold">Category:</span> {selectedElement.category}
                   </div>
-                  
-                  <div className="mt-3 text-sm">
-                    <span className="font-semibold">Description:</span><br />
-                    {selectedElement.description || "No description available."}
+                  <div className="text-sm">
+                    <span className="font-semibold">Group:</span> {selectedElement.group || "N/A"}
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-semibold">Period:</span> {selectedElement.period || "N/A"}
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-semibold">Block:</span> {selectedElement.block || "N/A"}
                   </div>
                 </div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="quiz" className="space-y-4">
-              <div className="p-6 bg-green-50 border border-green-300 rounded-lg text-center">
-                <h3 className="text-xl font-bold text-green-800">Quiz Mode</h3>
-                <p className="mb-4 text-green-700">Test your knowledge of the periodic table!</p>
-                <p className="text-sm text-green-600">Coming soon...</p>
+                
+                <div className="mt-3 text-sm">
+                  <span className="font-semibold">Electron Configuration:</span> {selectedElement.electronConfiguration || "N/A"}
+                </div>
+                
+                <div className="mt-3 text-sm">
+                  <span className="font-semibold">Description:</span><br />
+                  {selectedElement.description || "No description available."}
+                </div>
               </div>
-            </TabsContent>
-          </CardContent>
-          
-          <CardFooter className="bg-green-100/50 p-4 text-sm text-green-900">
-            <p>
-              This helper provides information about elements in the periodic table.
-              Use the search or category filters to find specific elements.
-            </p>
-          </CardFooter>
-        </Tabs>
+            )}
+          </div>
+        </CardContent>
+        
+        <CardFooter className="bg-green-100/50 p-4 text-sm text-green-900">
+          <p>
+            This helper provides information about elements in the periodic table.
+            Use the search or category filters to find specific elements.
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
