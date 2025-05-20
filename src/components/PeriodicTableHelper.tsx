@@ -26,7 +26,7 @@ const PeriodicTableHelper: React.FC = () => {
   const [filteredElements, setFilteredElements] = useState<Element[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
-  // Sample elements data (simplified)
+  // Expanded elements data
   const elements: Element[] = [
     {
       name: "Hydrogen",
@@ -147,6 +147,222 @@ const PeriodicTableHelper: React.FC = () => {
       block: "p",
       electronConfiguration: "[He] 2s² 2p⁶",
       description: "Neon is a chemical element with symbol Ne and atomic number 10. It is a noble gas."
+    },
+    {
+      name: "Sodium",
+      symbol: "Na",
+      atomicNumber: 11,
+      atomicMass: "22.990",
+      category: "Alkali Metal",
+      group: "1",
+      period: 3,
+      block: "s",
+      electronConfiguration: "[Ne] 3s¹",
+      description: "Sodium is a chemical element with symbol Na and atomic number 11. It is a soft, silvery-white, highly reactive metal and is a member of the alkali metals."
+    },
+    {
+      name: "Magnesium",
+      symbol: "Mg",
+      atomicNumber: 12,
+      atomicMass: "24.305",
+      category: "Alkaline Earth Metal",
+      group: "2",
+      period: 3,
+      block: "s",
+      electronConfiguration: "[Ne] 3s²",
+      description: "Magnesium is a chemical element with symbol Mg and atomic number 12. It is a shiny gray solid which bears a close physical resemblance to the other five elements in the second column of the periodic table."
+    },
+    {
+      name: "Aluminum",
+      symbol: "Al",
+      atomicNumber: 13,
+      atomicMass: "26.982",
+      category: "Post-transition Metal",
+      group: "13",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p¹",
+      description: "Aluminum is a chemical element with symbol Al and atomic number 13. It is a silvery-white, soft, non-magnetic and ductile metal in the boron group."
+    },
+    {
+      name: "Silicon",
+      symbol: "Si",
+      atomicNumber: 14,
+      atomicMass: "28.085",
+      category: "Metalloid",
+      group: "14",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p²",
+      description: "Silicon is a chemical element with symbol Si and atomic number 14. It is a hard and brittle crystalline solid with a blue-grey metallic lustre."
+    },
+    {
+      name: "Phosphorus",
+      symbol: "P",
+      atomicNumber: 15,
+      atomicMass: "30.974",
+      category: "Nonmetal",
+      group: "15",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p³",
+      description: "Phosphorus is a chemical element with symbol P and atomic number 15. Elemental phosphorus exists in two major forms, white phosphorus and red phosphorus."
+    },
+    {
+      name: "Sulfur",
+      symbol: "S",
+      atomicNumber: 16,
+      atomicMass: "32.06",
+      category: "Nonmetal",
+      group: "16",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p⁴",
+      description: "Sulfur is a chemical element with symbol S and atomic number 16. It is abundant, multivalent and nonmetallic."
+    },
+    {
+      name: "Chlorine",
+      symbol: "Cl",
+      atomicNumber: 17,
+      atomicMass: "35.45",
+      category: "Halogen",
+      group: "17",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p⁵",
+      description: "Chlorine is a chemical element with symbol Cl and atomic number 17. The second-lightest of the halogens, it appears between fluorine and bromine in the periodic table and its properties are mostly intermediate between them."
+    },
+    {
+      name: "Argon",
+      symbol: "Ar",
+      atomicNumber: 18,
+      atomicMass: "39.948",
+      category: "Noble Gas",
+      group: "18",
+      period: 3,
+      block: "p",
+      electronConfiguration: "[Ne] 3s² 3p⁶",
+      description: "Argon is a chemical element with symbol Ar and atomic number 18. It is in group 18 of the periodic table and is a noble gas."
+    },
+    {
+      name: "Potassium",
+      symbol: "K",
+      atomicNumber: 19,
+      atomicMass: "39.098",
+      category: "Alkali Metal",
+      group: "1",
+      period: 4,
+      block: "s",
+      electronConfiguration: "[Ar] 4s¹",
+      description: "Potassium is a chemical element with symbol K and atomic number 19. It was first isolated from potash, the ashes of plants, from which its name derives."
+    },
+    {
+      name: "Calcium",
+      symbol: "Ca",
+      atomicNumber: 20,
+      atomicMass: "40.078",
+      category: "Alkaline Earth Metal",
+      group: "2",
+      period: 4,
+      block: "s",
+      electronConfiguration: "[Ar] 4s²",
+      description: "Calcium is a chemical element with symbol Ca and atomic number 20. Calcium is a soft gray alkaline earth metal, fifth-most-abundant element by mass in the Earth's crust."
+    },
+    {
+      name: "Iron",
+      symbol: "Fe",
+      atomicNumber: 26,
+      atomicMass: "55.845",
+      category: "Transition Metal",
+      group: "8",
+      period: 4,
+      block: "d",
+      electronConfiguration: "[Ar] 3d⁶ 4s²",
+      description: "Iron is a chemical element with symbol Fe and atomic number 26. It is a metal that belongs to the first transition series and group 8 of the periodic table."
+    },
+    {
+      name: "Copper",
+      symbol: "Cu",
+      atomicNumber: 29,
+      atomicMass: "63.546",
+      category: "Transition Metal",
+      group: "11",
+      period: 4,
+      block: "d",
+      electronConfiguration: "[Ar] 3d¹⁰ 4s¹",
+      description: "Copper is a chemical element with symbol Cu and atomic number 29. It is a soft, malleable, and ductile metal with very high thermal and electrical conductivity."
+    },
+    {
+      name: "Zinc",
+      symbol: "Zn",
+      atomicNumber: 30,
+      atomicMass: "65.38",
+      category: "Transition Metal",
+      group: "12",
+      period: 4,
+      block: "d",
+      electronConfiguration: "[Ar] 3d¹⁰ 4s²",
+      description: "Zinc is a chemical element with symbol Zn and atomic number 30. It is the first element in group 12 of the periodic table."
+    },
+    {
+      name: "Silver",
+      symbol: "Ag",
+      atomicNumber: 47,
+      atomicMass: "107.87",
+      category: "Transition Metal",
+      group: "11",
+      period: 5,
+      block: "d",
+      electronConfiguration: "[Kr] 4d¹⁰ 5s¹",
+      description: "Silver is a chemical element with symbol Ag and atomic number 47. A soft, white, lustrous transition metal, it exhibits the highest electrical conductivity, thermal conductivity, and reflectivity of any metal."
+    },
+    {
+      name: "Gold",
+      symbol: "Au",
+      atomicNumber: 79,
+      atomicMass: "196.97",
+      category: "Transition Metal",
+      group: "11",
+      period: 6,
+      block: "d",
+      electronConfiguration: "[Xe] 4f¹⁴ 5d¹⁰ 6s¹",
+      description: "Gold is a chemical element with symbol Au and atomic number 79. In its purest form, it is a bright, slightly reddish yellow, dense, soft, malleable, and ductile metal."
+    },
+    {
+      name: "Mercury",
+      symbol: "Hg",
+      atomicNumber: 80,
+      atomicMass: "200.59",
+      category: "Transition Metal",
+      group: "12",
+      period: 6,
+      block: "d",
+      electronConfiguration: "[Xe] 4f¹⁴ 5d¹⁰ 6s²",
+      description: "Mercury is a chemical element with symbol Hg and atomic number 80. It is commonly known as quicksilver and was formerly named hydrargyrum."
+    },
+    {
+      name: "Lead",
+      symbol: "Pb",
+      atomicNumber: 82,
+      atomicMass: "207.2",
+      category: "Post-transition Metal",
+      group: "14",
+      period: 6,
+      block: "p",
+      electronConfiguration: "[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²",
+      description: "Lead is a chemical element with symbol Pb and atomic number 82. It is a heavy metal that is denser than most common materials."
+    },
+    {
+      name: "Uranium",
+      symbol: "U",
+      atomicNumber: 92,
+      atomicMass: "238.03",
+      category: "Actinide",
+      group: "3",
+      period: 7,
+      block: "f",
+      electronConfiguration: "[Rn] 5f³ 6d¹ 7s²",
+      description: "Uranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table."
     }
   ];
 
