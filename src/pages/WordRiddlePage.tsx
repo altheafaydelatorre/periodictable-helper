@@ -3,7 +3,7 @@ import React from 'react';
 import WordRiddleHelper from '@/components/WordRiddleHelper';
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, AtomIcon } from "lucide-react";
 
 const WordRiddlePage = () => {
   return (
@@ -14,6 +14,12 @@ const WordRiddlePage = () => {
             <Button variant="ghost" className="flex items-center gap-2">
               <HomeIcon size={18} />
               Home
+            </Button>
+          </Link>
+          <Link to="/periodic-table">
+            <Button variant="secondary" className="flex items-center gap-2">
+              <AtomIcon size={18} />
+              Periodic Table Helper
             </Button>
           </Link>
         </div>

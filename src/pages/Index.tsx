@@ -3,13 +3,19 @@ import React from 'react';
 import CryptogramHelper from '@/components/CryptogramHelper';
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { PuzzleIcon } from "lucide-react";
+import { PuzzleIcon, AtomIcon } from "lucide-react";
 
 const Index = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#FFA500] to-[#FF8C00] p-4">
       <div className="max-w-4xl w-full flex flex-col items-center">
-        <div className="w-full flex justify-end mb-4">
+        <div className="w-full flex justify-end gap-2 mb-4">
+          <Link to="/periodic-table">
+            <Button variant="secondary" className="flex items-center gap-2">
+              <AtomIcon size={18} />
+              Periodic Table Helper
+            </Button>
+          </Link>
           <Link to="/word-riddles">
             <Button variant="secondary" className="flex items-center gap-2">
               <PuzzleIcon size={18} />
