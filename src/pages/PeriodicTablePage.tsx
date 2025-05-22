@@ -1,23 +1,11 @@
 
 import React from 'react';
 import PeriodicTableHelper from '@/components/PeriodicTableHelper';
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { HomeIcon } from "lucide-react";
 
 const PeriodicTablePage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-100 to-emerald-200 p-4">
       <div className="max-w-4xl w-full flex flex-col items-center">
-        <div className="w-full flex justify-between items-center mb-4">
-          <Link to="/">
-            <Button variant="ghost" className="flex items-center gap-2">
-              <HomeIcon size={18} />
-              Home
-            </Button>
-          </Link>
-        </div>
-        
         <h1 className="text-3xl font-bold mb-1 text-emerald-800">Periodic Table Helper</h1>
         <p className="text-emerald-700/80 mb-6 text-center">
           Explore elements and their properties
